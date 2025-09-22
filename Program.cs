@@ -1,55 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 
 class Program
 {
     static void Main()
     {
-        List<Producto> productos = new List<Producto>
-        {
-            new Producto { Nombre = "Clavo", Precio = 9.5m, IdProducto = 1, FechaProducto = DateTime.Now },
-            new Producto { Nombre = "Tornillos", Precio = 8.3m, IdProducto =  2, FechaProducto = DateTime.Now },
-            new Producto { Nombre = "Taquetes", Precio = 7.2m, IdProducto = 3, FechaProducto = DateTime.Now }
-        };
-        Console.Write("Ingrese el ID del producto a buscar: ");
-        int id = int.Parse(Console.ReadLine());
+        Console.WriteLine(" ===== GESTOR DE VEHICULOS ===== ");
 
-        Producto productoEncontrado = BuscarPorId(productos, id);
+        // Creamos un auto
+        Auto coche1 = new Auto();
+        coche1.Marca = "Toyota";
+        coche1.Modelo = "Corolla";
+        coche1.Año = 2020;
+        coche1.NumPuertas = 4;
+        coche1.MostrarInfo();
 
-        if(productoEncontrado != null)
-        {
-            Console.WriteLine($"Producto encontrado: {productoEncontrado.Nombre}, Precio: {productoEncontrado.Precio}, Fecha: {productoEncontrado.FechaProducto.ToString("d")}");
-        }
-        else
-        {
-            Console.WriteLine("Producto no encontrado.");
-        }
+        Console.WriteLine();
 
+        // Creamos una moto
+        Moto moto1 = new Moto();
+        moto1.Marca = "Yamaha";
+        moto1.Modelo = "R1";
+        moto1.Año = 2022;
+        moto1.Cilindrada = 1000;
+        moto1.MostrarInfo();
+
+        Console.WriteLine();
+        Console.WriteLine(">>>>> PRESIONE ENTER PARA SALIR <<<<<");
+        Console.ReadKey();
     }
 
-
-    static Producto BuscarPorId(List<Producto> productos, int id)
+    // Clase base
+    public class Vehiculo
     {
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public int Año { get; set; }
 
-        
-        foreach (var producto in productos)
+        public virtual void MostrarInfo()
         {
-            if (producto.IdProducto == id)
-            {
-                return producto;
-            }
-        } 
-            return null;
+            Console.WriteLine($"Marca: {Marca}, Modelo: {Modelo}, Año: {Año}");
+        }
     }
 
-    class Producto
+    // Clase derivada: Auto
+    public class Auto : Vehiculo
     {
-        public string Nombre { get; set; }
-        public decimal Precio { get; set; }
+        public int NumPuertas { get; set; }
 
-        public int IdProducto { get; set; }
+        public override void MostrarInfo()
+        {
+            base.MostrarInfo();
+            Console.WriteLine($"Número de Puertas: {NumPuertas}");
+        }
+    }
 
-        public DateTime FechaProducto { get; set; }
+    // Clase derivada: Moto
+    public class Moto : Vehiculo
+    {
+        public int Cilindrada { get; set; }
+
+        public override void MostrarInfo()
+        {
+            base.MostrarInfo();
+            Console.WriteLine($"Cilindrada: {Cilindrada} cc");
+        }
     }
 }
